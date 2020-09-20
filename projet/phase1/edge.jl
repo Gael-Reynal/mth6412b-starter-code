@@ -1,7 +1,7 @@
 import Base.show
 
 """Type abstrait dont d'autres types d'arêtes dériveront."""
-abstract type AbstractEdge{E} end
+abstract type AbstractEdge{T} end
 
 """Type représentant les arêtes d'un graphe.
 
