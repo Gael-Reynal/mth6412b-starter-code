@@ -11,7 +11,7 @@ Exemple:
 
 """
 mutable struct Edge{T} <: AbstractEdge{T}
-  parents::T                                #Destiné à être un tuple de noeuds
+  limits::Vector{Node{T}}                                
   weight::Int64                                
 end
 
@@ -19,12 +19,12 @@ end
 # posséderont des champs `name` et `parents`.
 
 """Renvoie le nom du noeud."""
-parents(edge::AbstractEdge) = edge.parents
+limits(edge::AbstractEdge) = edge.limits
 
 """Renvoie les données contenues dans le noeud."""
 weight(edge::AbstractEdge) = edge.weight
 
 """Affiche un noeud."""
 function show(edge::AbstractEdge)
-  println("Parents: ", parents(edge),", weight: ", weight(edge))
+  println("Noeuds liés: ", limits(edge),", weight: ", weight(edge))
 end
