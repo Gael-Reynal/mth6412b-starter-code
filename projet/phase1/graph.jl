@@ -1,5 +1,8 @@
 import Base.show
 
+include("node.jl")
+include("edge.jl")
+
 """Type abstrait dont d'autres types de graphes dériveront."""
 abstract type AbstractGraph{T} end
 
@@ -19,7 +22,7 @@ Attention, tous les noeuds doivent avoir des données de même type.
 mutable struct Graph{T} <: AbstractGraph{T}
   name::String
   nodes::Vector{Node{T}}
-  edges::Vector{Edge}
+  edges::Vector{Edge{T}}
 end
 
 """Ajoute un noeud au graphe."""
