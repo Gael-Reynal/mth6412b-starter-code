@@ -1,46 +1,73 @@
+include("node.jl")
+include("edge.jl")
 include("graph.jl")
 include("read_stsp.jl")
 
-A=Node("A","a")
-B=Node("B","b")
-C=Node("C","c")
-AB=Edge((A,B),1)
-AC=Edge((A,C),2)
-BC=Edge((B,C),3)
-#show(A)
-#show(B)
-#show(AB)
+if false
+    A=Node("A","a")
+    B=Node("B","b")
+    show(A)
+    show(B)
 
-#println("\nPartie graphe\n")
-G=Graph("G",[A,B],[AB])
-#show(G)
-add_node!(G,C)
-add_edge!(G,AC)
-add_edge!(G,BC)
-#show(G)
+    AB=Edge([A,B],12)
+    show(AB)
 
+    G=Graph("G",Node{String}[],Edge{String}[])
+    show(G)
+    add_node!(G,A)
+    add_node!(G,B)
+    add_edge!(G,AB)
+    show(G) 
+end
 
-function create_graph(filename::String)
-    """crée un graphe à partir d'une instance de TSP symétrique dont les poids des arêtes sont donnés au format EXPLICIT.
-    Les noms des noeuds seront des entiers de 1 à n, n étant la dimension du graphes.
-    Les données qu'ils contiendront seront un tableau de taille 2 de type Array{Float} comportant leurs coordonnées."""
+#T=read_header("bayg29.tsp")
+#println(T)
+#N=read_nodes(T,"bays29.tsp")
+#E=read_edges(T,"bays29.tsp")
 
-    #On commence par récupérer les données du fichier
-    N,E=read_stsp(filename)
-
-    #On crée la liste des noeuds
-    nodes=Node{Array{Float64,1}}[]
-    for node in keys(N)
-        n=Node(string(node),N[node])
-        push!(nodes,n)
+function find_node_of_name(graph::Graph,name::String)
+    """Renvoie le noeud du graphe dont le nom correspond à celui donné en paramètre"""
+    n = 1
+    nb = length(graph.nodes)
+    while n <= nb && graph.nodes[n].name != name
+        n += 1
     end
+    if n > nb
+        error("Node not in graph")
+    else
+        return graph.nodes[n]
+    end
+end   
 
-    #On crée la liste des arêtes
-    edges=Edge{}
-    return nodes
+function create_graph(name::String,filename::String)
+    """Crée un graphe à partir d'un fichier au format TSPLib avec poids des arêtes EXPLICIT"""
+    graph = Graph(name,Node{Vector{Float64}}[],Edge{Vector{Float64}}[])
+    N,E = read_stsp(filename)
+    
+    if length(N)>0
+        for node in keys(N)
+            name = string(node)
+            add_node!(graph,Node(name,N[node]))
+        end
+    else
+        dim = parse(Int, read_header(filename)["DIMENSION"])
+        T = valtype(N)
+        for k in 1:dim
+            add_node!(graph,Node{T}("$k", T()))
+        end
+        show(graph)
+    end
+    for k in 1:length(E)
+        name1 = string(k)
+        node1 = find_node_of_name(graph,name1)
+        for edge in E[k]
+            name2 = string(edge[1])
+            node2 = find_node_of_name(graph,name2)
+            weight = edge[2]
+            add_edge!(graph, Edge([node1,node2],weight))
+        end
+    end
+    return graph
 end
 
-graph_nodes=create_graph("bays29.tsp")
-for n in graph_nodes
-    show(n)
-end
+g=create_graph("g","swiss42.tsp")
