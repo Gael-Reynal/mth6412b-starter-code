@@ -130,17 +130,17 @@ function read_edges(header::Dict{String}{String}, filename::String)
 
           for j = start : start + n_on_this_line - 1
             n_edges = n_edges + 1
-            weight=parse(Int, data[j+1])
+            weight = parse(Int, data[j+1])
             if edge_weight_format in ["UPPER_ROW", "LOWER_COL"]
-              edge = ((k+1, i+k+2),weight)
+              edge = (k+1, i+k+2,weight)
             elseif edge_weight_format in ["UPPER_DIAG_ROW", "LOWER_DIAG_COL"]
-              edge = ((k+1, i+k+1),weight)
+              edge = (k+1, i+k+1,weight)
             elseif edge_weight_format in ["UPPER_COL", "LOWER_ROW"]
-              edge = ((i+k+2, k+1),weight)
+              edge = (i+k+2, k+1,weight)
             elseif edge_weight_format in ["UPPER_DIAG_COL", "LOWER_DIAG_ROW"]
-              edge = ((i+1, k+1),weight)
+              edge = (i+1, k+1,weight)
             elseif edge_weight_format == "FULL_MATRIX"
-              edge = ((k+1, i+1),weight)
+              edge = (k+1, i+1,weight)
             else
               warn("Unknown format - function read_edges")
             end
@@ -183,29 +183,24 @@ function read_stsp(filename::String)
   println("✓")
 
   Base.print("Reading of edges : ")
-  graph_edges = read_edges(header,filename)
-  #edges_brut = read_edges(header, filename)
-  #println(edges_brut)
-  #graph_edges = []
-  #for k = 1 : dim
-  #  edge_list = Int[]
-  #  push!(graph_edges, edge_list)
-  #end
+  edges_brut = read_edges(header, filename)
+  graph_edges = []
+  for k = 1 : dim
+    edge_list = Vector{Int64}[]
+    push!(graph_edges, edge_list)
+  end
 
-  #for edge in edges_brut
-  #  println(edge)
-  #  if edge_weight_format in ["UPPER_ROW", "LOWER_COL", "UPPER_DIAG_ROW", "LOWER_DIAG_COL"]
-  #    print("Option 1")
-  #    push!(graph_edges[edge[1]], edge[2])
-  #  else
-  #    print("Option 2")
-  #    push!(graph_edges[edge[2]], edge[1])
-  #  end
-  #end
+  for edge in edges_brut
+    if edge_weight_format in ["UPPER_ROW", "LOWER_COL", "UPPER_DIAG_ROW", "LOWER_DIAG_COL"]
+      push!(graph_edges[edge[1]], [edge[2],edge[3]])
+    else
+      push!(graph_edges[edge[2]], [edge[1],edge[3]])
+    end
+  end
 
-  #for k = 1 : dim
-  #  graph_edges[k] = sort(graph_edges[k])
-  #end
+  for k = 1 : dim
+    graph_edges[k] = sort(graph_edges[k])
+  end
   println("✓")
   return graph_nodes, graph_edges
 end
