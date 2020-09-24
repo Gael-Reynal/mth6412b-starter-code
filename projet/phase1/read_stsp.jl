@@ -183,24 +183,29 @@ function read_stsp(filename::String)
   println("✓")
 
   Base.print("Reading of edges : ")
-  edges_brut = read_edges(header, filename)
-  graph_edges = []
-  for k = 1 : dim
-    edge_list = Int[]
-    push!(graph_edges, edge_list)
-  end
+  graph_edges = read_edges(header,filename)
+  #edges_brut = read_edges(header, filename)
+  #println(edges_brut)
+  #graph_edges = []
+  #for k = 1 : dim
+  #  edge_list = Int[]
+  #  push!(graph_edges, edge_list)
+  #end
 
-  for edge in edges_brut
-    if edge_weight_format in ["UPPER_ROW", "LOWER_COL", "UPPER_DIAG_ROW", "LOWER_DIAG_COL"]
-      push!(graph_edges[edge[1]], edge[2])
-    else
-      push!(graph_edges[edge[2]], edge[1])
-    end
-  end
+  #for edge in edges_brut
+  #  println(edge)
+  #  if edge_weight_format in ["UPPER_ROW", "LOWER_COL", "UPPER_DIAG_ROW", "LOWER_DIAG_COL"]
+  #    print("Option 1")
+  #    push!(graph_edges[edge[1]], edge[2])
+  #  else
+  #    print("Option 2")
+  #    push!(graph_edges[edge[2]], edge[1])
+  #  end
+  #end
 
-  for k = 1 : dim
-    graph_edges[k] = sort(graph_edges[k])
-  end
+  #for k = 1 : dim
+  #  graph_edges[k] = sort(graph_edges[k])
+  #end
   println("✓")
   return graph_nodes, graph_edges
 end
