@@ -7,24 +7,32 @@ abstract type AbstractEdge{T} end
 
 Exemple:
 
-        arête = Edge((Node1, Node2), 12)
+        noeud1 = Node("Kirk", "guitar")
+        noeud2 = Node("Lars", 2)
+        edge = Edge([noeud1, noeud2], 12)
 
 """
 mutable struct Edge{T} <: AbstractEdge{T}
-  limits::Tuple{Node{T},Node{T}}                                
-  weight::Int64                                
+  limits::Vector{Node{T}}
+  weight::Int64
 end
 
 # on présume que toutes les arêtes dérivant d'AbstractEdge
-# posséderont des champs `weight` et `limits`.
+# posséderont des champs `limits` et `weight`.
 
-"""Renvoie le nom des noeuds aux extrémités de l'arête."""
-limits(edge::AbstractEdge)=(edge.limits[1].name,edge.limits[2].name)
+"""Renvoie les noms des parents de l'arête."""
+function limits(edge::AbstractEdge)
+    lim=String[]
+    for node in edge.limits
+        push!(lim,node.name)
+    end
+    return lim
+end
 
 """Renvoie le poids de l'arête."""
 weight(edge::AbstractEdge) = edge.weight
 
 """Affiche une arête."""
 function show(edge::AbstractEdge)
-  println("Noeuds liés: ", limits(edge),", weight: ", weight(edge))
+  println("L'arête relie les noeuds ", limits(edge), " avec un poids de ", weight(edge))
 end
