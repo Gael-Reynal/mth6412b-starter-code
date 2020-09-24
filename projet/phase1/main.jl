@@ -55,7 +55,6 @@ function create_graph(name::String,filename::String)
         for k in 1:dim
             add_node!(graph,Node{T}("$k", T()))
         end
-        show(graph)
     end
     for k in 1:length(E)
         name1 = string(k)
