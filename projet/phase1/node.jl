@@ -30,5 +30,3 @@ data(node::AbstractNode) = node.data
 function show(node::AbstractNode)
   println("Node ", name(node), ", data: ", data(node))
 end
-
-#test modif
