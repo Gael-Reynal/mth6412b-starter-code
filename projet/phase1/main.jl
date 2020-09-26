@@ -25,8 +25,8 @@ end
 #N=read_nodes(T,"bays29.tsp")
 #E=read_edges(T,"bays29.tsp")
 
+"""Renvoie le noeud du graphe dont le nom correspond à celui donné en paramètre"""
 function find_node_of_name(graph::Graph,name::String)
-    """Renvoie le noeud du graphe dont le nom correspond à celui donné en paramètre"""
     n = 1
     nb = length(graph.nodes)
     while n <= nb && graph.nodes[n].name != name
@@ -39,8 +39,8 @@ function find_node_of_name(graph::Graph,name::String)
     end
 end   
 
-function create_graph(name::String,filename::String)
-    """Crée un graphe à partir d'un fichier au format TSPLib avec poids des arêtes EXPLICIT"""
+"""Crée un graphe à partir d'un fichier au format TSPLib avec poids des arêtes EXPLICIT"""
+function create_graph(name::String,filename::String)    
     graph = Graph(name,Node{Vector{Float64}}[],Edge{Vector{Float64}}[])
     N,E = read_stsp(filename)
     
