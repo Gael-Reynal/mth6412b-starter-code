@@ -3,7 +3,7 @@ include("edge.jl")
 include("graph.jl")
 include("read_stsp.jl")
 
-if false
+#if false
     A=Node("A","a")
     B=Node("B","b")
     show(A)
@@ -18,12 +18,12 @@ if false
     add_node!(G,B)
     add_edge!(G,AB)
     show(G) 
-end
 
-#T=read_header("bayg29.tsp")
-#println(T)
-#N=read_nodes(T,"bays29.tsp")
-#E=read_edges(T,"bays29.tsp")
+    T=read_header("bayg29.tsp")
+    println(T)
+    N=read_nodes(T,"bays29.tsp")
+    E=read_edges(T,"bays29.tsp")
+#end
 
 """Renvoie le noeud du graphe dont le nom correspond à celui donné en paramètre"""
 function find_node_of_name(graph::Graph,name::String)
@@ -44,6 +44,7 @@ function create_graph(name::String,filename::String)
     graph = Graph(name,Node{Vector{Float64}}[],Edge{Vector{Float64}}[])
     N,E = read_stsp(filename)
     
+    #Création de la liste de noeuds
     if length(N)>0
         for node in keys(N)
             name = string(node)
@@ -56,6 +57,8 @@ function create_graph(name::String,filename::String)
             add_node!(graph,Node{T}("$k", T()))
         end
     end
+
+    #Création de la liste des arêtes
     for k in 1:length(E)
         name1 = string(k)
         node1 = find_node_of_name(graph,name1)
@@ -69,4 +72,4 @@ function create_graph(name::String,filename::String)
     return graph
 end
 
-g=create_graph("g","swiss42.tsp")
+g=create_graph("g","bays29.tsp")
