@@ -22,7 +22,7 @@ mutable struct Graph{T} <: AbstractGraph{T}
   edges::Vector{Edge{T}}
 end
 
-Graph{T}() where T = Graph("default",Node{T}[],Edge{T}[])
+Graph{T}(name::String="",nodes::Vector{Node{T}}=Node{T}[],edges::Vector{Edge{T}}=Edge{T}[]) where T = Graph(name,nodes,edges)
 
 """Ajoute un noeud au graphe."""
 function add_node!(graph::Graph{T}, node::Node{T}) where T

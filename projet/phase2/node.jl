@@ -18,7 +18,7 @@ mutable struct Node{T} <: AbstractNode{T}
   data::T
 end
 
-Node{T}(data::T) where T = Node("default",data)
+Node{T}(data::T,name::String="") where T = Node(name,data)
 
 # on présume que tous les noeuds dérivant d'AbstractNode
 # posséderont des champs `name`, `par` et `data`.
