@@ -14,11 +14,14 @@ Exemple:
 """
 mutable struct Node{T} <: AbstractNode{T}
   name::String
+#  par::Node{T}
   data::T
 end
 
+Node{T}(data::T) where T = Node("default",data)
+
 # on présume que tous les noeuds dérivant d'AbstractNode
-# posséderont des champs `name` et `data`.
+# posséderont des champs `name`, `par` et `data`.
 
 """Renvoie le nom du noeud."""
 name(node::AbstractNode) = node.name
@@ -26,7 +29,10 @@ name(node::AbstractNode) = node.name
 """Renvoie les données contenues dans le noeud."""
 data(node::AbstractNode) = node.data
 
+#"""Renvoie le parent du noeud"""
+#par(node::AbstractNode) = node.par
+
 """Affiche un noeud."""
 function show(node::AbstractNode)
-  println("Node ", name(node), ", data: ", data(node))
+  println("Node ", name(node), ", data: ", data(node))#, ", parent:", node.par.name)
 end

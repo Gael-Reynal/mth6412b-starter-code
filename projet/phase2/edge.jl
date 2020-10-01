@@ -20,6 +20,8 @@ end
 # on présume que toutes les arêtes dérivant d'AbstractEdge
 # posséderont des champs `limits` et `weight`.
 
+Edge{T}() where T = Edge(Node{T}[],0)
+
 """Renvoie les noms des parents de l'arête."""
 function limits(edge::AbstractEdge)
     lim=String[]
