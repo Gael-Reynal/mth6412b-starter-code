@@ -34,6 +34,12 @@ end
 """Renvoie le poids de l'arête."""
 weight(edge::AbstractEdge) = edge.weight
 
+"""Permet de changer le poids de l'arête"""
+function weight!(edge::AbstractEdge,weight::Int64)
+  edge.weight=weight
+  edge
+end
+
 """Affiche une arête."""
 function show(edge::AbstractEdge)
   println("L'arête relie les noeuds ", limits(edge), " avec un poids de ", weight(edge))
