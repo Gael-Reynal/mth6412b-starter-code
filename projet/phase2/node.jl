@@ -14,11 +14,13 @@ Exemple:
 """
 mutable struct Node{T} <: AbstractNode{T}
   name::String
-#  par::Node{T}
+  par::Union{Node{T},Nothing}
   data::T
 end
 
-Node{T}(data::T,name::String="") where T = Node(name,data)
+#Node{T}(data::T,
+#  name::String="",
+#  par=nothing) where T = Node(name,par,data)
 
 # on présume que tous les noeuds dérivant d'AbstractNode
 # posséderont des champs `name`, `par` et `data`.
@@ -29,10 +31,20 @@ name(node::AbstractNode) = node.name
 """Renvoie les données contenues dans le noeud."""
 data(node::AbstractNode) = node.data
 
-#"""Renvoie le parent du noeud"""
-#par(node::AbstractNode) = node.par
+"""Renvoie le parent du noeud"""
+par(node::AbstractNode) = node.par
+
+"""Setter du parent d'un noeud"""
+function set_parent!(node::Node{T}, p::Node{T}) where T
+  node.par = p
+  node
+end
 
 """Affiche un noeud."""
 function show(node::AbstractNode)
-  println("Node ", name(node), ", data: ", data(node))#, ", parent:", node.par.name)
+  if node.par==nothing
+    println("Node ", name(node), ", data: ", data(node), ", parent:", node.par)
+  else
+    println("Node ", name(node), ", data: ", data(node), ", parent:", node.par.name)
+  end
 end
