@@ -13,14 +13,14 @@ Exemple:
 
 """
 mutable struct Node{T} <: AbstractNode{T}
+  data::T
   name::String
   par::Union{Node{T},Nothing}
-  data::T
 end
 
-#Node{T}(data::T,
-#  name::String="",
-#  par=nothing) where T = Node(name,par,data)
+Node{T}(data::T;
+  name::String="",
+  par::Union{Node{T},Nothing}=nothing) where T = Node(data,name,par)
 
 # on présume que tous les noeuds dérivant d'AbstractNode
 # posséderont des champs `name`, `par` et `data`.

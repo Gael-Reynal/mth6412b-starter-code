@@ -14,13 +14,14 @@ end
 
 """Crée un graphe à partir d'un fichier au format TSPLib avec poids des arêtes EXPLICIT"""
 function create_graph(name::String,filename::String)
-    graph = Graph(name,Node{Vector{Float64}}[],Edge{Vector{Float64}}[])
+    graph = Graph{Vector{Float64}}(name)
     N,E = read_stsp(filename)
     
     #Création de la liste de noeuds
     if length(N)>0
         for node in keys(N)
-            n = Node(string(node),nothing,N[node])
+            n = Node{Vector{Float64}}(N[node],string(node),nothing)
+            println("Pass")
             set_parent!(n,n)
             add_node!(graph,n)
         end
@@ -42,7 +43,7 @@ function create_graph(name::String,filename::String)
             name2 = string(edge[1])
             node2 = find_node_of_name(graph,name2)
             weight = edge[2]
-            add_edge!(graph, Edge([node1,node2],weight))
+            add_edge!(graph, Edge{Vector{Float64}}([node1,node2],weight))
         end
     end
     return graph
