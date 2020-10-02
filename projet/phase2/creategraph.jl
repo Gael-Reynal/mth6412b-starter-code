@@ -21,7 +21,6 @@ function create_graph(name::String,filename::String)
     if length(N)>0
         for node in keys(N)
             n = Node{Vector{Float64}}(N[node],string(node),nothing)
-            println("Pass")
             set_parent!(n,n)
             add_node!(graph,n)
         end
@@ -29,7 +28,7 @@ function create_graph(name::String,filename::String)
         dim = parse(Int, read_header(filename)["DIMENSION"])
         T = valtype(N)
         for k in 1:dim
-            n = Node{T}(T(),"$k")
+            n = Node{T}(T(),"$k",nothing)
             set_parent!(n,n)
             add_node!(graph,n)
         end
