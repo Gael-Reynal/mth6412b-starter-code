@@ -16,7 +16,6 @@ mutable struct Node{T} <: AbstractNode{T}
   data::T
   name::String
   par::Union{Node{T},Nothing}
-  rank::Int
 end
 
 Node{T}(data::T;
@@ -25,7 +24,7 @@ Node{T}(data::T;
   rank::Int=0) where T = Node(data,name,par,rank)
 
 # on présume que tous les noeuds dérivant d'AbstractNode
-# posséderont des champs `name`, `par`, `data` et `rank`.
+# posséderont des champs `name`, `par` et `data`
 
 """Renvoie le nom du noeud."""
 name(node::AbstractNode) = node.name
@@ -36,18 +35,9 @@ data(node::AbstractNode) = node.data
 """Renvoie le parent du noeud"""
 par(node::AbstractNode) = node.par
 
-"""Renvoie le rang du noeud"""
-rank(node::AbstractNode) = node.rank
-
 """Setter du parent d'un noeud"""
 function set_parent!(node::Node{T}, p::Node{T}) where T
   node.par = p
-  node
-end
-
-"""Setter du rang d'un noeud"""
-function set_rank!(node::Node{T}, r::Int) where T
-  node.rank = r
   node
 end
 
