@@ -16,14 +16,16 @@ mutable struct Node{T} <: AbstractNode{T}
   data::T
   name::String
   par::Union{Node{T},Nothing}
+  min_weight::Union{Int,Inf}
 end
 
 Node{T}(data::T;
   name::String="",
-  par::Union{Node{T},Nothing}=nothing) where T = Node(data,name,par)
+  par::Union{Node{T},Nothing}=nothing,
+  mw::Union{Int,Inf}==Inf) where T = Node(data,name,par,mw)
 
 # on présume que tous les noeuds dérivant d'AbstractNode
-# posséderont des champs `name`, `par` et `data`
+# posséderont des champs `name`, `par`, `data` et `minweight`
 
 """Renvoie le nom du noeud."""
 name(node::AbstractNode) = node.name
@@ -34,17 +36,26 @@ data(node::AbstractNode) = node.data
 """Renvoie le parent du noeud"""
 par(node::AbstractNode) = node.par
 
+"""Renvoie le poids minimal d'un noeud"""
+min_weight(node::AbstractNode) = node.min_weight
+
 """Setter du parent d'un noeud"""
 function set_parent!(node::Node{T}, p::Node{T}) where T
   node.par = p
   node
 end
 
+"""Setter du poids d'un noeud"""
+function set_min_weight!(node::Node{T}, w::Int) where T
+  node.min_weight = w
+  node
+end
+
 """Affiche un noeud."""
 function show(node::AbstractNode)
   if node.par==nothing
-    println("Node ", name(node), ", data: ", data(node), ", parent:", node.par)
+    println("Node ", name(node), ", data: ", data(node), ", parent: ", node.par, ", poids: ", node.min_weight)
   else
-    println("Node ", name(node), ", data: ", data(node), ", parent:", node.par.name)
+    println("Node ", name(node), ", data: ", data(node), ", parent:", node.par.name, ", poids: ", node.min_weight)
   end
 end
