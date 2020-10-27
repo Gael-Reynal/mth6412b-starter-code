@@ -20,8 +20,7 @@ end
 # on présume que toutes les arêtes dérivant d'AbstractEdge
 # posséderont des champs `limits` et `weight`.
 
-Edge{T}(limits::Vector{Node{T}};
-  weight::Int64=0) where T = Edge(limits,weight)
+Edge{T}(limits::Vector{Node{T}}) where T = Edge(limits,0)
 
 """Renvoie les noms des parents de l'arête."""
 function limits(edge::AbstractEdge)

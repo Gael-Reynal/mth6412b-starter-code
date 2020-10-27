@@ -16,13 +16,10 @@ mutable struct Node{T} <: AbstractNode{T}
   data::T
   name::String
   par::Union{Node{T},Nothing}
-  min_weight::Union{Int,Inf}
+  min_weight::Union{Int,Float64}
 end
 
-Node{T}(data::T;
-  name::String="",
-  par::Union{Node{T},Nothing}=nothing,
-  mw::Union{Int,Inf}==Inf) where T = Node(data,name,par,mw)
+Node{T}(data::T) where T = Node(data,"",nothing,Inf)
 
 # on présume que tous les noeuds dérivant d'AbstractNode
 # posséderont des champs `name`, `par`, `data` et `minweight`
