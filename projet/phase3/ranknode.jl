@@ -1,6 +1,9 @@
 import Base.show
 
-mutable struct RankNode{T} <: Node{T}
+mutable struct RankNode{T} <: AbstractNode{T}
+    data::T
+    name::String
+    par::Union{Node{T},Nothing}
     rank::Int
   end
 
@@ -21,10 +24,10 @@ function set_rank!(node::RankNode{T}, r::Int) where T
 end
 
 """Affiche un ranknode."""
-function show(node::AbstractNode)
+function show(node::RankNode{T}) where T
   if node.par==nothing
-    println("Node ", name(node), ", data: ", data(node), ", parent:", node.par, ", rang:", node.rank)
+    println("Node ", name(node), ", data: ", data(node), ", parent: ", node.par, ", rang: ", node.rank)
   else
-    println("Node ", name(node), ", data: ", data(node), ", parent:", node.par.name, ", rang:", node.rank)
+    println("Node ", name(node), ", data: ", data(node), ", parent: ", node.par.name, ", rang: ", node.rank)
   end
 end
