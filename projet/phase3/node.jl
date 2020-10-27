@@ -20,8 +20,7 @@ end
 
 Node{T}(data::T;
   name::String="",
-  par::Union{Node{T},Nothing}=nothing,
-  rank::Int=0) where T = Node(data,name,par,rank)
+  par::Union{Node{T},Nothing}=nothing) where T = Node(data,name,par)
 
 # on présume que tous les noeuds dérivant d'AbstractNode
 # posséderont des champs `name`, `par` et `data`
@@ -44,8 +43,8 @@ end
 """Affiche un noeud."""
 function show(node::AbstractNode)
   if node.par==nothing
-    println("Node ", name(node), ", data: ", data(node), ", parent:", node.par, ", rang:", node.rank)
+    println("Node ", name(node), ", data: ", data(node), ", parent:", node.par)
   else
-    println("Node ", name(node), ", data: ", data(node), ", parent:", node.par.name, ", rang:", node.rank)
+    println("Node ", name(node), ", data: ", data(node), ", parent:", node.par.name)
   end
 end
