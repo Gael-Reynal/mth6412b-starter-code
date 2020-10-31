@@ -14,13 +14,14 @@ Exemple:
 """
 mutable struct Edge{T} <: AbstractEdge{T}
   limits::Vector{Node{T}}
-  weight::Int64
+  weight::Union{Int64,Float64}
 end
 
 # on présume que toutes les arêtes dérivant d'AbstractEdge
 # posséderont des champs `limits` et `weight`.
 
-Edge{T}(limits::Vector{Node{T}}) where T = Edge(limits,0)
+Edge{T}(limits::Vector{Node{T}};
+  weight::Union{Int64,Float64}=0) where T = Edge(limits,weight)
 
 """Renvoie les noms des parents de l'arête."""
 function limits(edge::AbstractEdge)
@@ -35,7 +36,7 @@ end
 weight(edge::AbstractEdge) = edge.weight
 
 """Permet de changer le poids de l'arête"""
-function weight!(edge::AbstractEdge,weight::Int64)
+function weight!(edge::AbstractEdge,weight::Union{Int64,Float64})
   edge.weight=weight
   edge
 end
