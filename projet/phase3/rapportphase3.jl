@@ -209,17 +209,14 @@ md"Pour tester le programme sur d'autres instances, on a fourni le code suivant 
 with_terminal() do
 	open("testprim.jl","r") do file
 	lines=readlines(file)
-		for i in 10:27
+		for i in 10:19
 			println(stdout,lines[i])
 		end
 	end
 end
 
 # ╔═╡ d606a620-1c30-11eb-2954-cb052f28d768
-md" Cette fonction prend en argument une chaîne de caractère renseignant le nom du fichier sans l'extension .tsp. Par exemple, `test_prim(\"swiss42\")` applique l'algorithme de prim à l'instance `swiss42.tsp`. 
-
-Afin de faciliter l'utilisation, on a ajouté la ligne d'exécution `test_prim(ARGS[1])` qui va exécuter la fonction en considérant le premier argument de la ligne entrée dans l'invite de commande comme paramètre. Par exemple, en entrant `julia testprim.jl swiss42` dans l'invite de commande, on applique la fonction à l'instance `swiss42.tsp` (sous réserve bien sûr que les fichiers soient localisés au bon endroit).
-"
+md" Cette fonction prend en argument une chaîne de caractère renseignant le nom du fichier sans l'extension .tsp. Par exemple, `test_prim(\"swiss42\")` applique l'algorithme de prim à l'instance `swiss42.tsp`. "
 
 # ╔═╡ Cell order:
 # ╠═22431920-1b6d-11eb-1376-177eeadcee26
@@ -247,5 +244,5 @@ Afin de faciliter l'utilisation, on a ajouté la ligne d'exécution `test_prim(A
 # ╟─6aa793e2-1c2f-11eb-1297-fbc895d9dfb4
 # ╟─851fe500-1c30-11eb-3686-f751a99e1321
 # ╟─aecbeca0-1c30-11eb-248a-41882f2b04bc
-# ╠═c2133a20-1c30-11eb-2651-a172fefe4ae0
+# ╟─c2133a20-1c30-11eb-2651-a172fefe4ae0
 # ╟─d606a620-1c30-11eb-2954-cb052f28d768
