@@ -18,7 +18,7 @@ H=Node("h","H",nothing,Inf)
 I=Node("i","I",nothing,Inf)
 
 AB=Edge([A,B],4)
-AH=Edge([A,H],8)
+AH=Edge([A,H],7)
 BC=Edge([B,C],8)
 BH=Edge([B,H],11)
 CD=Edge([C,D],7)
@@ -32,7 +32,7 @@ GH=Edge([G,H],1)
 GI=Edge([G,I],6)
 HI=Edge([H,I],7)
 
-G=Graph("G",[A,B,C,D,E,F,G,H,I],[AB,AH,BC,BH,CD,CF,CI,DE,DF,EF,FG,GH,GI,HI])
+g=Graph("G",[A,B,C,D,E,F,G,H,I],[AB,AH,BC,BH,CD,CF,CI,DE,DF,EF,FG,GH,GI,HI])
 
-P1 = prim(G,A)
+P1 = prim(g,A)
 show(P1)

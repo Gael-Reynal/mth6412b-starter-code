@@ -28,9 +28,6 @@ function prim(graph::Graph{T}, source::Node{T}) where T
     
     #On itère jusqu'à ce qu'il n'y ait plus de noeuds à visiter
     while !(is_empty(to_visit))
-
-        #Initialisation de l'arête légère
-        light=Edge(Node{T}[],Inf)
         
         for edge in graph.edges
             n1 = edge.limits[1]
@@ -39,29 +36,28 @@ function prim(graph::Graph{T}, source::Node{T}) where T
             r2 = find_root(n2)
 
             #On cherche une arête légère reliant un noeud isolé au sous-arbre
-            if edge.weight <= light.weight
-                if r1 == source && r2 != source
-                    #Mise à jour de l'arête légère
-                    light = edge
-                    #Mise à jour de la valeur du noeud
-                    if edge.weight < n2.value
-                        set_value!(n2,edge.weight)
-                    end
-                elseif r2 == source && r1 != source
-                    #Mise à jour de l'arête légère
-                    light = edge
-                    #Mise à jour de la valeur du noeud
-                    if edge.weight < n2.value
-                        set_value!(n2,edge.weight)
-                    end
-                end
+            if r1 == source && r2 != source && edge.weight < n2.value
+                set_value!(n2,edge.weight)
+            elseif r2 == source && r1 != source&& edge.weight < n1.value
+                set_value!(n1,edge.weight)
             end
         end
-        
-        add_edge!(tree,light)
-        new_node = popfirst_min!(to_visit)
-        set_parent!(new_node, source)
 
+        new_node = popfirst_min!(to_visit)
+        
+        for edge in graph.edges
+            n1 = edge.limits[1]
+            n2 = edge.limits[2]
+            if n1==new_node && edge.weight==n1.value && find_root(n2)==source
+                add_edge!(tree,edge)
+                set_parent!(n1,source)
+                break
+            elseif n2==new_node && edge.weight==n2.value && find_root(n1)==source
+                add_edge!(tree,edge)
+                set_parent!(n2,source)
+                break
+            end
+        end
     end
     return tree
 end
