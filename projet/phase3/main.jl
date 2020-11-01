@@ -4,6 +4,8 @@ include("graph.jl")
 include("queue.jl")
 include("heuristics.jl")
 include("prim.jl")
+include("creategraph.jl")
+include("read_stsp.jl")
 
 A=Node("a","A",nothing,Inf)
 B=Node("b","B",nothing,Inf)
@@ -32,5 +34,11 @@ HI=Edge([H,I],7)
 
 G=Graph("G",[A,B,C,D,E,F,G,H,I],[AB,AH,BC,BH,CD,CF,CI,DE,DF,EF,FG,GH,GI,HI])
 
-test=prim(G,A)
+fic1 = "../../instances/stsp/bays29.tsp" 
+fic2 = "../../instances/stsp/bayg29.tsp"
+
+G1 = create_graph("g1", fic1)
+G2 = create_graph("g2", fic2)
+
+test=prim(G1,G1.nodes[1])
 show(test)
