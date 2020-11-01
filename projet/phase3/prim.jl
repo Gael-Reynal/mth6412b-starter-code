@@ -1,9 +1,3 @@
-#include("node.jl")
-#include("edge.jl")
-#include("graph.jl")
-#include("queue.jl")
-#include("heuristics.jl")
-
 """Applique l'algorithme de prim sur le graphe passé en paramètre 
 en considérant le noeud passé en paramètre comme source
 Ici, l'attribut `value` d'un noeud correspondra au poids de l'arête de poids minimal
