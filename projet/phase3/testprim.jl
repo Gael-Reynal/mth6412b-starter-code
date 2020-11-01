@@ -1,3 +1,12 @@
+include("node.jl")
+include("edge.jl")
+include("graph.jl")
+include("queue.jl")
+include("heuristics.jl")
+include("prim.jl")
+include("creategraph.jl")
+include("read_stsp.jl")
+
 function test_prim(filename::String)
     fic1 = "../../instances/stsp/"*filename*".tsp"
 
@@ -7,4 +16,4 @@ function test_prim(filename::String)
     show(test)
 end
 
-test_prim(ARGS[1])
+test_prim("swiss42")
