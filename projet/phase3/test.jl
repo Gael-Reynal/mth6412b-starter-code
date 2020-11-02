@@ -9,8 +9,40 @@ include("read_stsp.jl")
 
 using Test
 
+# Heuristiques d'accélération ----------------------------------
+
+println("Compression des chemins")
+
+A=Node("a","A",nothing,0)
+B=Node("b","B",A,0)
+C=Node("c","C",B,0)
+D=Node("d","D",B,0)
+
+println(@test find_root_compressed(A)==A)
+println(@test find_root_compressed(B)==A)
+println(@test find_root_compressed(C)==A)
+println(@test C.par==A)
+println(@test D.par==B)
+
+println("Union par le rang")
+println(@test rank_merge(A,D)=="Même composante")
+
+E=Node("d","D",nothing,1)
+F=Node("d","D",nothing,1)
+rank_merge(A,E)
+println(@test A.value==0)
+println(@test E.value==1)
+rank_merge(E,F)
+println(@test E.value==2)
+
+# Algorithme de Prim : cas limites
+println("Algorithme de Prim")
+G0=Graph("",[A],Edge{String}[])
+println(@test isequal(prim(G0,A),G0))
+
 # Test 1 -------------------------------------------------------
 
+println("Exemple des notes de cours")
 A=Node("a","A",nothing,Inf)
 B=Node("b","B",nothing,Inf)
 C=Node("c","C",nothing,Inf)
@@ -38,7 +70,7 @@ HI=Edge([H,I],7)
 
 G1 = Graph("G1",[A,B,C,D,E,F,G,H,I],[AB,AH,BC,BH,CD,CF,CI,DE,DF,EF,FG,GH,GI,HI])
 G1_min_A = Graph("G1_min_A",[A,B,C,D,E,F,G,H,I],[AB,AH,GH,FG,CF,CI,CD,DE])
-G1_min_F = Graph("G1_min_A",[A,B,C,D,E,F,G,H,I],[AB,AH,CD,CF,CI,DE,FG,GH])
+G1_min_F = Graph("G1_min_F",[A,B,C,D,E,F,G,H,I],[AB,AH,CD,CF,CI,DE,FG,GH])
 
 
 println(@test isequal(prim(G1,A), G1_min_A))
@@ -47,6 +79,7 @@ println(@test isequal(prim(G1,F), G1_min_F))
 
 # Test 2 -------------------------------------------------------
 
+println("Exemple plus simple")
 A=Node("a","A",nothing,Inf)
 B=Node("b","B",nothing,Inf)
 C=Node("c","C",nothing,Inf)
@@ -73,6 +106,7 @@ println(@test isequal(prim(G2,A), G2_min_A))
 
 # Test 3 -------------------------------------------------------
 
+println("Exemple avec plusieurs solutions")
 A=Node("a","A",nothing,Inf)
 B=Node("b","B",nothing,Inf)
 C=Node("c","C",nothing,Inf)
@@ -131,4 +165,3 @@ G4_min_A2 = Graph("G4_min_A2",[A,B,C,D,E],[AC,AE,DE,BE])
 
 
 println(@test isequal(prim(G4,A), G4_min_A1)||isequal(prim(G4,A), G4_min_A2))
-

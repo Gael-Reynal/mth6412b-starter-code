@@ -28,7 +28,7 @@ function rank_merge(n1::Node{T},n2::Node{T}) where T
     r1=find_root(n1)
     r2=find_root(n2)
     if r1 == r2
-        return 
+        return ("Même composante")
     elseif r1.value == r2.value
         set_value!(r1,r1.value+1)
         set_parent!(r2,r1)
