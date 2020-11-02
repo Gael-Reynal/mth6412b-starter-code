@@ -10,17 +10,17 @@ include("test.jl")
 
 using Test
 
-A=Node("a","A",nothing,Inf)
-B=Node("b","B",nothing,Inf)
-C=Node("c","C",nothing,Inf)
-D=Node("d","D",nothing,Inf)
-E=Node("e","E",nothing,Inf)
-F=Node("f","F",nothing,Inf)
-G=Node("g","G",nothing,Inf)
-H=Node("h","H",nothing,Inf)
-I=Node("i","I",nothing,Inf)
-
 function cours()
+    A=Node("a","A",nothing,Inf)
+    B=Node("b","B",nothing,Inf)
+    C=Node("c","C",nothing,Inf)
+    D=Node("d","D",nothing,Inf)
+    E=Node("e","E",nothing,Inf)
+    F=Node("f","F",nothing,Inf)
+    G=Node("g","G",nothing,Inf)
+    H=Node("h","H",nothing,Inf)
+    I=Node("i","I",nothing,Inf)
+
     AB=Edge([A,B],4)
     AH=Edge([A,H],7)
     BC=Edge([B,C],8)

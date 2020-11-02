@@ -20,6 +20,7 @@ begin
 	include("prim.jl")
 	include("creategraph.jl")
 	include("read_stsp.jl")
+	include("test.jl")
 	include("main.jl")
 	include("testprim.jl")
 end
@@ -64,7 +65,28 @@ Afin de vérfier notre implémentation, on a réalisé les tests suivants sur de
 "
 
 # ╔═╡ a1fb2c6e-1b6d-11eb-3383-59299459c799
-md" **INSERER LES TESTS DE COMPRESSION DES CHEMINS**"
+with_terminal() do
+	open("test.jl","r") do file
+	lines=readlines(file)
+		for i in 8:17
+			println(stdout,lines[i])
+		end
+	end
+end
+
+# ╔═╡ cae899b0-1d07-11eb-08fd-1fa36280c232
+with_terminal() do
+	A=Node("a","A",nothing,0)
+    B=Node("b","B",A,0)
+    C=Node("c","C",B,0)
+    D=Node("d","D",B,0)
+
+    println(@test find_root_compressed(A)==A)
+    println(@test find_root_compressed(B)==A)
+    println(@test find_root_compressed(C)==A)
+    println(@test C.par==A)
+    println(@test D.par==B)
+end
 
 # ╔═╡ b1fec0a0-1b6d-11eb-0b22-3d6f20daa594
 md"# Union par le rang
@@ -86,7 +108,33 @@ md" L'implémentation a été vérifiée par les tests suivants :
 "
 
 # ╔═╡ 602853d0-1c27-11eb-0797-67ae6fb38e3a
-md" **INSERER LES TESTS D'UNION PAR LE RANG**"
+with_terminal() do
+	open("test.jl","r") do file
+	lines=readlines(file)
+		for i in 19:28
+			println(stdout,lines[i])
+		end
+	end
+end
+
+# ╔═╡ fd221d20-1d07-11eb-10cf-6d8504e57e14
+with_terminal() do
+	A=Node("a","A",nothing,0)
+    B=Node("b","B",A,0)
+    C=Node("c","C",B,0)
+    D=Node("d","D",B,0)
+    E=Node("d","D",nothing,1)
+    F=Node("d","D",nothing,1)
+	
+	println("Union par le rang")
+    println(@test rank_merge(A,D)=="Même composante")
+
+    rank_merge(A,E)
+    println(@test A.value==0)
+    println(@test E.value==1)
+    rank_merge(E,F)
+    println(@test E.value==2)
+end
 
 # ╔═╡ 682ca26e-1c27-11eb-2d16-03e68885f39e
 md" La question se pose de savoir quel peut-être le rang d'un noeud. On peut déjà remarquer qu'en fusionnant deux composantes connexes (disons deux noeuds, quitte à assimiler une composante connexe à sa racine), on a une augmentation du rang d'au plus 1 (cas où les deux noeuds sont de même rang). De plus, tous les noeuds commencent initialement avec un rang de 0. De ces deux postulats, on déduit qu'on aura bien un rang d'au plus $|S|-1$ pour un noeud.
@@ -128,7 +176,7 @@ Puis, tant que des noeuds ne sont pas connectés, on itère le procédé suivant
 with_terminal() do
 	open("prim.jl","r") do file
 	lines=readlines(file)
-		for i in 1:67
+		for i in 1:63
 			println(stdout,lines[i])
 		end
 	end
@@ -138,17 +186,159 @@ end
 md" Afin de vérifier l'implémentation, les tests suivants ont été réalisés :"
 
 # ╔═╡ c9856cd0-1c2e-11eb-3531-733daaa4dd4f
-md" **INSERER LES TESTS DE PRIM**"
+with_terminal() do
+	open("test.jl","r") do file
+	lines=readlines(file)
+		for i in 30:160
+			println(stdout,lines[i])
+		end
+	end
+end
+
+# ╔═╡ 6e8388f0-1d08-11eb-1b19-a1b49c840550
+with_terminal() do
+	# Algorithme de Prim : cas limites
+	A=Node("a","A",nothing,Inf)
+    println("Algorithme de Prim")
+    G0=Graph("",[A],Edge{String}[])
+    println(@test isequal(prim(G0,A),G0))
+
+    # Test 1 -------------------------------------------------------
+
+    println("Exemple des notes de cours")
+    A=Node("a","A",nothing,Inf)
+    B=Node("b","B",nothing,Inf)
+    C=Node("c","C",nothing,Inf)
+    D=Node("d","D",nothing,Inf)
+    E=Node("e","E",nothing,Inf)
+    F=Node("f","F",nothing,Inf)
+    G=Node("g","G",nothing,Inf)
+    H=Node("h","H",nothing,Inf)
+    I=Node("i","I",nothing,Inf)
+
+    AB=Edge([A,B],4)
+    AH=Edge([A,H],7)
+    BC=Edge([B,C],8)
+    BH=Edge([B,H],11)
+    CD=Edge([C,D],7)
+    CF=Edge([C,F],4)
+    CI=Edge([C,I],2)
+    DE=Edge([D,E],9)
+    DF=Edge([D,F],14)
+    EF=Edge([E,F],10)
+    FG=Edge([F,G],2)
+    GH=Edge([G,H],1)
+    GI=Edge([G,I],6)
+    HI=Edge([H,I],7)
+
+    G1 = Graph("G1",[A,B,C,D,E,F,G,H,I],[AB,AH,BC,BH,CD,CF,CI,DE,DF,EF,FG,GH,GI,HI])
+    G1_min_A = Graph("G1_min_A",[A,B,C,D,E,F,G,H,I],[AB,AH,GH,FG,CF,CI,CD,DE])
+    G1_min_F = Graph("G1_min_F",[A,B,C,D,E,F,G,H,I],[AB,AH,CD,CF,CI,DE,FG,GH])
+
+
+    println(@test isequal(prim(G1,A), G1_min_A))
+    println(@test isequal(prim(G1,F), G1_min_F))
+
+
+    # Test 2 -------------------------------------------------------
+
+    println("Exemple plus simple")
+    A=Node("a","A",nothing,Inf)
+    B=Node("b","B",nothing,Inf)
+    C=Node("c","C",nothing,Inf)
+    D=Node("d","D",nothing,Inf)
+    E=Node("e","E",nothing,Inf)
+    F=Node("f","F",nothing,Inf)
+
+    AB=Edge([A,B],1)
+    AC=Edge([A,C],2)
+    AE=Edge([A,E],10)
+    BE=Edge([B,E],3)
+    BD=Edge([B,D],4)
+    CE=Edge([C,E],8)
+    DF=Edge([D,F],5)
+    EF=Edge([E,F],6)
+
+
+    G2 = Graph("G2",[A,B,C,D,E,F],[AB,AC,AE,BE,BD,CE,DF,EF])
+    G2_min_A = Graph("G2_min_A",[A,B,C,D,E,F],[AB,AC,BE,BD,DF])
+
+
+    println(@test isequal(prim(G2,A), G2_min_A))
+
+
+    # Test 3 -------------------------------------------------------
+
+    println("Exemple avec plusieurs solutions")
+    A=Node("a","A",nothing,Inf)
+    B=Node("b","B",nothing,Inf)
+    C=Node("c","C",nothing,Inf)
+    D=Node("d","D",nothing,Inf)
+    E=Node("e","E",nothing,Inf)
+    F=Node("f","F",nothing,Inf)
+
+    AB=Edge([A,B],3)
+    AC=Edge([A,C],7)
+    AE=Edge([A,E],3)
+    BE=Edge([B,E],1)
+    BD=Edge([B,D],2)
+    CF=Edge([C,F],5)
+    DF=Edge([D,F],6)
+    EF=Edge([E,F],8)
+
+
+    G3 = Graph("G3",[A,B,C,D,E,F],[AB,AC,AE,BE,BD,CF,DF,EF])
+
+    # Prim peut donner deux resultats différents en partant de A ou E
+    G3_min_A1 = Graph("G3_min_A1",[A,B,C,D,E,F],[AB,BE,BD,CF,DF])
+    G3_min_A2 = Graph("G3_min_A2",[A,B,C,D,E,F],[AE,BE,BD,CF,DF])
+    G3_min_E1 = Graph("G3_min_E1",[A,B,C,D,E,F],[AB,BE,BD,CF,DF])
+    G3_min_E2 = Graph("G3_min_E2",[A,B,C,D,E,F],[AE,BE,BD,CF,DF])
+
+    println(@test isequal(prim(G3,A), G3_min_A1)||isequal(prim(G3,A), G3_min_A2))
+    println(@test isequal(prim(G3,E), G3_min_E1)||isequal(prim(G3,E), G3_min_E2))
+
+
+    # Test 4 -------------------------------------------------------
+
+    A=Node("a","A",nothing,Inf)
+    B=Node("b","B",nothing,Inf)
+    C=Node("c","C",nothing,Inf)
+    D=Node("d","D",nothing,Inf)
+    E=Node("e","E",nothing,Inf)
+
+    AB=Edge([A,B],3)
+    AC=Edge([A,C],4)
+    AD=Edge([A,D],6)
+    AE=Edge([A,E],3)
+    BC=Edge([B,C],7)
+    BD=Edge([B,D],7)
+    BE=Edge([B,E],2)
+    CD=Edge([C,D],5)
+    CE=Edge([C,E],6)
+    DE=Edge([D,E],1)
+
+
+
+    G4 = Graph("G4",[A,B,C,D,E],[AB,AC,AD,AE,BC,BD,BE,CD,CE,DE])
+
+    # Prim peut donner deux resultats différents en partant de A
+    G4_min_A1 = Graph("G4_min_A1",[A,B,C,D,E],[AB,BE,DE,AC])
+    G4_min_A2 = Graph("G4_min_A2",[A,B,C,D,E],[AC,AE,DE,BE])
+
+
+    println(@test isequal(prim(G4,A), G4_min_A1)||isequal(prim(G4,A), G4_min_A2))
+end
 
 # ╔═╡ d30e3890-1c2e-11eb-0c79-850eb41f0fa4
 md"# Applications
 L'algorithme a été appliqué à l'exemple des notes de cours comme suit :"
 
-# ╔═╡ ecb43b00-1c2e-11eb-209a-1dbcb8c47a76
+# ╔═╡ a68d15e0-1d08-11eb-21c2-d3e036b6328d
 with_terminal() do
 	open("main.jl","r") do file
 	lines=readlines(file)
-		for i in 10:38
+		for i in 14:42
 			println(stdout,lines[i])
 		end
 	end
@@ -219,25 +409,28 @@ end
 md" Cette fonction prend en argument une chaîne de caractère renseignant le nom du fichier sans l'extension .tsp. Par exemple, `test_prim(\"swiss42\")` applique l'algorithme de prim à l'instance `swiss42.tsp`. "
 
 # ╔═╡ Cell order:
-# ╠═22431920-1b6d-11eb-1376-177eeadcee26
-# ╠═25c2ca00-1b6d-11eb-26d5-35ff69b37966
-# ╠═7c957680-1b6c-11eb-3bc0-315c8874ae39
+# ╟─22431920-1b6d-11eb-1376-177eeadcee26
+# ╟─25c2ca00-1b6d-11eb-26d5-35ff69b37966
+# ╟─7c957680-1b6c-11eb-3bc0-315c8874ae39
 # ╟─d8a78540-1b6b-11eb-2c7d-dd5c13a7815b
 # ╟─8996aba0-1c26-11eb-1db3-ebbe71d36a15
 # ╟─44d01e80-1b6c-11eb-257c-59e52060b6da
 # ╟─4012c810-1b6d-11eb-2359-0177f7165cac
 # ╟─a1fb2c6e-1b6d-11eb-3383-59299459c799
+# ╟─cae899b0-1d07-11eb-08fd-1fa36280c232
 # ╟─b1fec0a0-1b6d-11eb-0b22-3d6f20daa594
 # ╟─e51f48b0-1b6d-11eb-0052-07b2534037c6
 # ╟─4cc56800-1c27-11eb-28c9-5d368320a436
 # ╟─602853d0-1c27-11eb-0797-67ae6fb38e3a
+# ╟─fd221d20-1d07-11eb-10cf-6d8504e57e14
 # ╟─682ca26e-1c27-11eb-2d16-03e68885f39e
 # ╟─d81f70d0-1c2c-11eb-033b-17b0b7f61f3d
 # ╟─f336b680-1c2c-11eb-2b34-a5c6949024ac
 # ╟─ac2c7480-1c2e-11eb-0d28-379d5b29cbee
 # ╟─c9856cd0-1c2e-11eb-3531-733daaa4dd4f
+# ╟─6e8388f0-1d08-11eb-1b19-a1b49c840550
 # ╟─d30e3890-1c2e-11eb-0c79-850eb41f0fa4
-# ╟─ecb43b00-1c2e-11eb-209a-1dbcb8c47a76
+# ╟─a68d15e0-1d08-11eb-21c2-d3e036b6328d
 # ╟─2063bca0-1c2f-11eb-1db6-8dc51026b586
 # ╟─293b39c0-1c2f-11eb-1b82-7d6da78b2a0e
 # ╟─4f671b50-1c2f-11eb-3e8d-77f8e46c333b
