@@ -67,3 +67,26 @@ function show(graph::Graph)
     show(edge)
   end
 end
+
+"""Renvoie True si deux graphs ont les mêmes edges et les mêmes nodes, False sinon."""
+function isequal(graph1::Graph,graph2::Graph)
+  if length(graph1.edges) != length(graph2.edges)
+    return false
+  elseif length(graph1.nodes) != length(graph2.nodes)
+    return false
+  end
+
+  for node in graph1.nodes
+    if node ∉ graph2.nodes
+      return false
+    end
+  end
+
+  for edge in graph1.edges
+    if edge ∉ graph2.edges
+      return false
+    end
+  end
+  
+  return true
+end
