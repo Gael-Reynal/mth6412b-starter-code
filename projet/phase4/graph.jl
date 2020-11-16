@@ -22,6 +22,10 @@ mutable struct Graph{T} <: AbstractGraph{T}
   edges::Vector{Edge{T}}
 end
 
+Graph{T}(name::String;
+  nodes::Vector{Node{T}}=Node{T}[],
+  edges::Vector{Edge{T}}=Edge{T}[]) where T = Graph(name,nodes,edges)
+
 """Ajoute un noeud au graphe."""
 function add_node!(graph::Graph{T}, node::Node{T}) where T
   push!(graph.nodes, node)
@@ -52,6 +56,15 @@ nb_nodes(graph::AbstractGraph) = length(graph.nodes)
 """Renvoie le nombre d'arêtes du graphe."""
 nb_edges(graph::AbstractGraph) = length(graph.edges)
 
+"""Renvoie le poids total du graphe"""
+function total_cost(graph::AbstractGraph)
+  res=0
+  for edge in graph.edges
+    res+=edge.weight
+  end
+  return res
+end
+
 """Affiche un graphe"""
 function show(graph::Graph)
   println("Graph ", name(graph), " has ", nb_nodes(graph), " nodes.")
@@ -62,4 +75,27 @@ function show(graph::Graph)
   for edge in edges(graph)
     show(edge)
   end
+end
+
+"""Renvoie True si deux graphs ont les mêmes edges et les mêmes nodes, False sinon."""
+function isequal(graph1::Graph,graph2::Graph)
+  if length(graph1.edges) != length(graph2.edges)
+    return false
+  elseif length(graph1.nodes) != length(graph2.nodes)
+    return false
+  end
+
+  for node in graph1.nodes
+    if node ∉ graph2.nodes
+      return false
+    end
+  end
+
+  for edge in graph1.edges
+    if edge ∉ graph2.edges
+      return false
+    end
+  end
+  
+  return true
 end
