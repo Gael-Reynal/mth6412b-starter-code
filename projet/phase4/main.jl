@@ -1,3 +1,6 @@
+using Plots
+using Test
+
 include("node.jl")
 include("edge.jl")
 include("graph.jl")
@@ -8,6 +11,7 @@ include("kruskal.jl")
 include("creategraph.jl")
 include("read_stsp.jl")
 include("rsl.jl")
+include("graphplot.jl")
 
 A=Node("a","A",nothing,Inf)
 B=Node("b","B",nothing,Inf)
