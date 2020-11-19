@@ -1,4 +1,5 @@
 import Base.show
+import Base.isless
 
 """Type abstrait dont d'autres types d'arêtes dériveront."""
 abstract type AbstractEdge{T} end
@@ -36,7 +37,7 @@ end
 weight(edge::AbstractEdge) = edge.weight
 
 """Permet de changer le poids de l'arête"""
-function weight!(edge::AbstractEdge,weight::Union{Int64,Float64})
+function set_weight!(edge::AbstractEdge,weight::Union{Int64,Float64})
   edge.weight=weight
   edge
 end
@@ -45,3 +46,6 @@ end
 function show(edge::AbstractEdge)
   println("L'arête relie les noeuds ", limits(edge), " avec un poids de ", weight(edge))
 end
+
+### Comparaison entre arêtes ###
+isless(e1::AbstractEdge, e2::AbstractEdge) = weight(e1) < weight(e2)
