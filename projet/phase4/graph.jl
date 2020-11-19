@@ -76,6 +76,7 @@ function show(graph::Graph)
   for edge in edges(graph)
     show(edge)
   end
+  println("total cost: ",total_cost(graph))
 end
 
 """Renvoie True si deux graphs ont les mêmes edges et les mêmes nodes, False sinon."""
