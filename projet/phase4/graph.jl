@@ -1,4 +1,5 @@
 import Base.show
+import Base.isless
 
 """Type abstrait dont d'autres types de graphes dériveront."""
 abstract type AbstractGraph{T} end
@@ -99,3 +100,6 @@ function isequal(graph1::Graph,graph2::Graph)
   
   return true
 end
+
+### Comparaison entre graphes ###
+isless(g1::AbstractGraph, g2::AbstractGraph) = total_cost(n1) < total_cost(n2)
