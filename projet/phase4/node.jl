@@ -19,18 +19,21 @@ mutable struct Node{T} <: AbstractNode{T}
   par::Union{Node{T},Nothing}
   value::Union{Int,Float64}
   deg::Int
+  pen::Float64
 end
 
 Node{T}(data::T;
   name::String="",
   par::Union{Node{T},Nothing}=nothing,
-  value::Union{Int,Float64}=0
-  deg::Int=0) where T = Node(data,name,par,value,deg)
+  value::Union{Int,Float64}=0,
+  deg::Int=0,
+  pen::Float64=0) where T = Node(data,name,par,value,deg,pen)
 
 # on présume que tous les noeuds dérivant d'AbstractNode
 # posséderont des champs `name`, `par` et `data`.
 # l'attribut `value` pourra représenter un rang, une distance ou tout autre donnée numérique utile à la comparaison de noeuds
-#L'attribut `deg` permettra de représenter le degré du noeud dans un graphe
+# L'attribut `deg` permettra de représenter le degré du noeud dans un graphe
+# L'attribut `pen` représente la pénalité du noeud dans l'algorithme de Held et Karp
 
 ### Getters ###
 
@@ -48,6 +51,9 @@ value(node::AbstractNode) = node.value
 
 """Renvoie le degré du noeud"""
 deg(node::AbstractNode) = node.deg
+
+"""Renvoie la pénalité du noeud"""
+pen(node::AbstractNode) = node.pen
 
 ### Setters ###
 
@@ -70,8 +76,14 @@ function set_value!(node::Node{T},value::Union{Int,Float64}) where T
 end
 
 """Setter du degré d'un noeud"""
-function set_deg!(node::Node{T},d::Int) where Type
+function set_deg!(node::Node{T},d::Int) where T
   node.deg = d
+  node
+end
+
+"""Setter de la pénalité d'un noeud"""
+function set_pen!(node::Node{T},p::Float64) where Type
+  node.pen = p
   node
 end
 
@@ -89,9 +101,9 @@ end
 """Affichage l'intégralité des caractéristiques d'un noeud"""
 function show_full(node::AbstractNode)
   if node.par==nothing
-    println("Node ", name(node), ", data: ", data(node), ", parent: ", node.par, ", value: ", node.value, ", degree: ", node.deg)
+    println("Node ", name(node), ", data: ", data(node), ", parent: ", node.par, ", value: ", node.value, ", degree: ", node.deg, ", penalty: ", node.pen)
   else
-    println("Node ", name(node), ", data: ", data(node), ", parent: ", node.par.name, ", value: ", node.value, ", degree: ", node.deg)
+    println("Node ", name(node), ", data: ", data(node), ", parent: ", node.par.name, ", value: ", node.value, ", degree: ", node.deg, ", penalty: ", node.pen)
   end
 end
 

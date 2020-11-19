@@ -20,7 +20,7 @@ function create_graph(name::String,filename::String)
     #Création de la liste de noeuds
     if length(N)>0
         for node in keys(N)
-            n = Node{Vector{Float64}}(N[node],string(node),nothing,0,0)
+            n = Node{Vector{Float64}}(N[node],string(node),nothing,0,0,0)
             set_parent!(n,n)
             add_node!(graph,n)
         end
@@ -28,7 +28,7 @@ function create_graph(name::String,filename::String)
         dim = parse(Int, read_header(filename)["DIMENSION"])
         T = valtype(N)
         for k in 1:dim
-            n = Node{T}(T(),"$k",nothing,0,0)
+            n = Node{T}(T(),"$k",nothing,0,0,0)
             set_parent!(n,n)
             add_node!(graph,n)
         end
