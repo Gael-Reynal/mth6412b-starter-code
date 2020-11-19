@@ -1,4 +1,4 @@
-using Plots
+#using Plots
 using Test
 
 include("node.jl")
@@ -11,17 +11,18 @@ include("kruskal.jl")
 include("creategraph.jl")
 include("read_stsp.jl")
 include("rsl.jl")
+include("hk.jl")
 include("graphplot.jl")
 
-A=Node("a","A",nothing,Inf,0)
-B=Node("b","B",nothing,Inf,0)
-C=Node("c","C",nothing,Inf,0)
-D=Node("d","D",nothing,Inf,0)
-E=Node("e","E",nothing,Inf,0)
-F=Node("f","F",nothing,Inf,0)
-G=Node("g","G",nothing,Inf,0)
-H=Node("h","H",nothing,Inf,0)
-I=Node("i","I",nothing,Inf,0)
+A=Node("a","A",nothing,Inf,0,0)
+B=Node("b","B",nothing,Inf,0,0)
+C=Node("c","C",nothing,Inf,0,0)
+D=Node("d","D",nothing,Inf,0,0)
+E=Node("e","E",nothing,Inf,0,0)
+F=Node("f","F",nothing,Inf,0,0)
+G=Node("g","G",nothing,Inf,0,0)
+H=Node("h","H",nothing,Inf,0,0)
+I=Node("i","I",nothing,Inf,0,0)
 
 AB=Edge([A,B],4)
 AH=Edge([A,H],7)
@@ -42,10 +43,8 @@ EI=Edge([E,I],20)
 
 g=Graph("G",[A,B,C,D,E,F,G,H,I],[AB,AH,BC,BH,CD,CF,CI,DE,DF,EF,FG,GH,GI,HI,AI,EI])
 
-test1 = rsl_prim(g)
-show(test1)
-println(total_cost(test1))
-
-test2 = rsl_kruskal(g)
-show(test2)
-println(total_cost(test2))
+for n in g.nodes
+    show(n)
+    println(find_deg(g,n))
+    println("\n")
+end

@@ -19,7 +19,7 @@ mutable struct Node{T} <: AbstractNode{T}
   par::Union{Node{T},Nothing}
   value::Union{Int,Float64}
   deg::Int
-  pen::Float64
+  pen::Union{Float64,Int}
 end
 
 Node{T}(data::T;
@@ -27,7 +27,7 @@ Node{T}(data::T;
   par::Union{Node{T},Nothing}=nothing,
   value::Union{Int,Float64}=0,
   deg::Int=0,
-  pen::Float64=0) where T = Node(data,name,par,value,deg,pen)
+  pen::Union{Float64,Int}=0) where T = Node(data,name,par,value,deg,pen)
 
 # on présume que tous les noeuds dérivant d'AbstractNode
 # posséderont des champs `name`, `par` et `data`.
@@ -82,7 +82,7 @@ function set_deg!(node::Node{T},d::Int) where T
 end
 
 """Setter de la pénalité d'un noeud"""
-function set_pen!(node::Node{T},p::Float64) where Type
+function set_pen!(node::Node{T},p::Union{Float64,Int}) where T
   node.pen = p
   node
 end
