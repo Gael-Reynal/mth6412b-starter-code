@@ -18,16 +18,19 @@ mutable struct Node{T} <: AbstractNode{T}
   name::String
   par::Union{Node{T},Nothing}
   value::Union{Int,Float64}
+  deg::Int
 end
 
 Node{T}(data::T;
   name::String="",
   par::Union{Node{T},Nothing}=nothing,
-  value::Union{Int,Float64}=0) where T = Node(data,name,par,value)
+  value::Union{Int,Float64}=0
+  deg::Int=0) where T = Node(data,name,par,value,deg)
 
 # on présume que tous les noeuds dérivant d'AbstractNode
 # posséderont des champs `name`, `par` et `data`.
 # l'attribut `value` pourra représenter un rang, une distance ou tout autre donnée numérique utile à la comparaison de noeuds
+#L'attribut `deg` permettra de représenter le degré du noeud dans un graphe
 
 ### Getters ###
 
@@ -42,6 +45,9 @@ par(node::AbstractNode) = node.par
 
 """Renvoie la valeur du noeud"""
 value(node::AbstractNode) = node.value
+
+"""Renvoie le degré du noeud"""
+deg(node::AbstractNode) = node.deg
 
 ### Setters ###
 
@@ -63,9 +69,15 @@ function set_value!(node::Node{T},value::Union{Int,Float64}) where T
   node
 end
 
+"""Setter du degré d'un noeud"""
+function set_deg!(node::Node{T},d::Int) where Type
+  node.deg = d
+  node
+end
+
 ### Affichage ###
 
-"""Affiche un noeud."""
+"""Affiche les données principales d'un noeud."""
 function show(node::AbstractNode)
   if node.par==nothing
     println("Node ", name(node), ", data: ", data(node), ", parent: ", node.par)
@@ -74,12 +86,12 @@ function show(node::AbstractNode)
   end
 end
 
-"""Affichage d'un noeud avec sa valeur"""
-function show_val(node::AbstractNode)
+"""Affichage l'intégralité des caractéristiques d'un noeud"""
+function show_full(node::AbstractNode)
   if node.par==nothing
-    println("Node ", name(node), ", data: ", data(node), ", parent: ", node.par, ", value: ", node.value)
+    println("Node ", name(node), ", data: ", data(node), ", parent: ", node.par, ", value: ", node.value, ", degree: ", node.deg)
   else
-    println("Node ", name(node), ", data: ", data(node), ", parent: ", node.par.name, ", value: ", node.value)
+    println("Node ", name(node), ", data: ", data(node), ", parent: ", node.par.name, ", value: ", node.value, ", degree: ", node.deg)
   end
 end
 
