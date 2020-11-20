@@ -1,6 +1,6 @@
 """Renvoie la racine du noeud placé en paramètre"""
 function find_root(n::Node{T}) where T
-    if n.par==n
+    if n.par==n || n.par==nothing
         return n
     else
         return find_root(n.par)

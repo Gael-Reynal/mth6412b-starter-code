@@ -1,10 +1,3 @@
-include("node.jl")
-include("edge.jl")
-include("graph.jl")
-include("queue.jl")
-include("heuristics.jl")
-include("prim.jl")
-
 """Renvoie le parcours en préordre d'un arbre en considérant le noeud s comme source"""
 function preorder(graph::Graph{T}, s::Node{T}, res::Vector{Node{T}}=Node{T}[]) where T
     push!(res,s)

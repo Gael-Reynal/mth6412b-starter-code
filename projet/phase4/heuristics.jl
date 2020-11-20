@@ -1,5 +1,3 @@
-include("node.jl")
-
 """Trouve la racine d'un noeud"""
 function find_root(node::Node{T}) where T
     if node.par == nothing || node.par==node

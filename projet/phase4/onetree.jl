@@ -1,16 +1,3 @@
-include("node.jl")
-include("edge.jl")
-include("graph.jl")
-include("queue.jl")
-include("heuristics.jl")
-include("prim.jl")
-include("kruskal.jl")
-include("creategraph.jl")
-include("read_stsp.jl")
-include("rsl.jl")
-include("hk.jl")
-include("graphplot.jl")
-
 function onetree(graph::Graph{T}) where T
     min_cost = Inf
     res=Graph{T}("")

@@ -1,4 +1,4 @@
-function plot_graph(graph::Graph{T}) where T
+function plot_graph(graph::Graph{T},filename::String) where T
     nodes=graph.nodes
     edges=graph.edges
     fig = plot(legend=false)
@@ -17,5 +17,5 @@ function plot_graph(graph::Graph{T}) where T
     y = [xy.data[2] for xy in nodes]
     scatter!(x, y)
   
-    savefig("test.png")
+    savefig(filename*".png")
   end
