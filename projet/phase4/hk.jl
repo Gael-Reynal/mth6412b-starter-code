@@ -28,7 +28,8 @@ end
 function hk(graph::Graph{T}) where T
     
     ###Initialisation
-    
+    #Résultat
+    mst=Graph{T}("")
     #Période
     per=div(length(graph.nodes),2)
     k=0
@@ -107,29 +108,38 @@ function hk(graph::Graph{T}) where T
                 firstper=false
             end
         end
-        println("t: ",t," per: ",per)
+        println("t: ",t," per: ",per," poids: ",total_cost(mst))
     end
 
     #Si on n'a encore rien renvoyé, on crée le graphe résultat et on le renvoie
-    mst=onetree(graph)
     tournee=preorder(mst,mst.nodes[1])
     res=Graph(graph.name*"_min_tsp",graph.nodes,Edge{T}[])
 
     for k in 1:length(tournee)-1
         n1=tournee[k]
         n2=tournee[k+1]
-        for edge in graph.edges
+        found=false
+        e=1
+        while !found
+            edge=graph.edges[e]
             if edge.limits==[n1,n2] || edge.limits==[n2,n1]
                 add_edge!(res,edge)
+                found=true
             end
+            e+=1
         end
     end
     n1=tournee[1]
     n2=tournee[length(tournee)]
-    for edge in graph.edges
+    found=false
+    e=1
+    while !found
+        edge=graph.edges[e]
         if edge.limits==[n1,n2] || edge.limits==[n2,n1]
             add_edge!(res,edge)
+            found=true
         end
+        e+=1
     end
     return res
 end

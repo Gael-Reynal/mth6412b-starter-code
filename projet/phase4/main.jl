@@ -46,7 +46,7 @@ if false
     g=Graph("G",[A,B,C,D,E,F,G,H,I],[AB,AH,BC,BH,CD,CF,CI,DE,DF,EF,FG,GH,GI,HI,AI,EI])
 end
 
-fic1 = "../../instances/stsp/bayg29.tsp"
+fic1 = "../../instances/stsp/dantzig42.tsp"
 G1 = create_graph("g1", fic1)
 #plot_graph(G1,"bayg29")
 G2 = hk(G1)
