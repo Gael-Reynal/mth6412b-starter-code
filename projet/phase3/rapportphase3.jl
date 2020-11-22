@@ -412,9 +412,9 @@ md" Cette fonction prend en argument une chaîne de caractère renseignant le no
 # ╟─22431920-1b6d-11eb-1376-177eeadcee26
 # ╟─25c2ca00-1b6d-11eb-26d5-35ff69b37966
 # ╟─7c957680-1b6c-11eb-3bc0-315c8874ae39
-# ╟─d8a78540-1b6b-11eb-2c7d-dd5c13a7815b
+# ╠═d8a78540-1b6b-11eb-2c7d-dd5c13a7815b
 # ╟─8996aba0-1c26-11eb-1db3-ebbe71d36a15
-# ╟─44d01e80-1b6c-11eb-257c-59e52060b6da
+# ╠═44d01e80-1b6c-11eb-257c-59e52060b6da
 # ╟─4012c810-1b6d-11eb-2359-0177f7165cac
 # ╟─a1fb2c6e-1b6d-11eb-3383-59299459c799
 # ╟─cae899b0-1d07-11eb-08fd-1fa36280c232
