@@ -35,6 +35,11 @@ function rsl_prim(graph::Graph{T}) where T
             end
         end
     end
+    #tour=String[]
+    #for n in tournee
+    #    push!(tour,n.name)
+    #end
+    #println(tour)
     return g_rsl
 end
 
@@ -60,5 +65,10 @@ function rsl_kruskal(graph::Graph{T}) where T
             end
         end
     end
+    #tour=String[]
+    #for n in tournee
+    #    push!(tour,n.name)
+    #end
+    #println(tour)
     return g_rsl
 end
