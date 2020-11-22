@@ -1,5 +1,5 @@
-#using Plots
-using Test
+using Plots
+#using Test
 
 include("node.jl")
 include("edge.jl")
@@ -46,9 +46,100 @@ if false
     g=Graph("G",[A,B,C,D,E,F,G,H,I],[AB,AH,BC,BH,CD,CF,CI,DE,DF,EF,FG,GH,GI,HI,AI,EI])
 end
 
-fic1 = "../../instances/stsp/dantzig42.tsp"
-G1 = create_graph("g1", fic1)
-#plot_graph(G1,"bayg29")
-G2 = hk(G1)
-show(G2)
-#plot_graph(G2,"bayg29_min_tsp")
+function total()
+    fic1 = "bayg29"
+    fic2 = "bays29"
+    fic3 = "brazil58"
+    fic4 = "dantzig42"
+    fic5 = "fri26"
+    fic6 = "gr17"
+    fic7 = "gr21"
+    fic8 = "gr24"
+    fic9 = "gr48"
+    fic10 = "hk48"
+    fic11 = "swiss42"
+    fic12 = "gr120"
+    fic13 = "brg180"
+    fic14 = "pa561"
+
+    fic=[fic1,fic2,fic3,fic4,fic5,fic6,fic7,fic8,fic9,fic10,fic11,fic12,fic13,fic14]
+
+    rk=Float64[]
+    rp=Float64[]
+    hkk=Float64[]
+    hkp=Float64[]
+
+    for f in fic
+        G=create_graph(f,"../../instances/stsp/"*f*".tsp")
+        if G.nodes[1].data!=Float64[]
+            plot_graph(G,f)
+        end
+
+        G1=rsl_kruskal(G)
+        push!(rk,total_cost(G1))
+        G2=rsl_prim(G)
+        push!(rp,total_cost(G2))
+        G3=hk_kruskal(G)
+        push!(hkk,total_cost(G3))
+        println("\nMeilleure tournée trouvée pour "*f)
+        G4=hk_prim(G)
+        push!(hkp,total_cost(G4))
+
+        if G1.nodes[1].data!=Float64[]
+            plot_graph(G1,f*"_rsl_kruskal")
+        end
+        if G2.nodes[1].data!=Float64[]
+            plot_graph(G2,f*"_rsl_prim")
+        end
+        if G3.nodes[1].data!=Float64[]
+            plot_graph(G3,f*"_hk_kruskal")
+        end
+        if G4.nodes[1].data!=Float64[]
+            plot_graph(G4,f*"_hk_prim")
+        end
+    end
+
+    println("rsl kruskal: ",rk)
+    println("rsl prim: ",rp)
+    println("hk kruskal: ",hkk)
+    println("hk prim: ",hkp)
+end
+
+function results(f::String)
+    
+    G=create_graph(f,"../../instances/stsp/"*f*".tsp")
+    if G.nodes[1].data!=Float64[]
+        plot_graph(G,f)
+    end
+
+    G1=rsl_kruskal(G)
+    rk=total_cost(G1)
+    G2=rsl_prim(G)
+    rp=total_cost(G2)
+    G3=hk_kruskal(G)
+    hkk=total_cost(G3)
+    println("\nMeilleure tournée trouvée pour "*f)
+    G4=hk_prim(G)
+    hkp=total_cost(G4)
+
+    if G1.nodes[1].data!=Float64[]
+        plot_graph(G1,f*"_rsl_kruskal")
+    end
+    if G2.nodes[1].data!=Float64[]
+        plot_graph(G2,f*"_rsl_prim")
+    end
+    if G3.nodes[1].data!=Float64[]
+        plot_graph(G3,f*"_hk_kruskal")
+    end
+    if G4.nodes[1].data!=Float64[]
+        plot_graph(G4,f*"_hk_prim")
+    end
+
+    println("rsl kruskal: ",rk)
+    println("rsl prim: ",rp)
+    println("hk kruskal: ",hkk)
+    println("hk prim: ",hkp)
+end
+
+#total() # ATTENTION : Cette fonction calcule le résultats sur TOUTES les instances de tsp disponibles. L'exécution en est TRES longue
+results("brg180")
