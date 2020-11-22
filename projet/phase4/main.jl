@@ -1,5 +1,5 @@
 using Plots
-#using Test
+using Test
 
 include("node.jl")
 include("edge.jl")
@@ -14,6 +14,7 @@ include("onetree.jl")
 include("rsl.jl")
 include("hk.jl")
 include("graphplot.jl")
+include("test.jl")
 
 if false
     A=Node("a","A",nothing,Inf,0,0)
@@ -141,4 +142,5 @@ function results(f::String)
     println("hk prim: ",hkp)
 end
 
+test() 
 #total() # ATTENTION : Cette fonction calcule le résultats sur TOUTES les instances de tsp disponibles. L'exécution en est TRES longue
