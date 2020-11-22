@@ -142,4 +142,3 @@ function results(f::String)
 end
 
 #total() # ATTENTION : Cette fonction calcule le résultats sur TOUTES les instances de tsp disponibles. L'exécution en est TRES longue
-results("brg180")

@@ -108,19 +108,3 @@ Rapport (meilleure tournée)/(tournée optimale) : 1.16
 Poids avec RSL_Kruskal : 26162
 Poids avec RSL_Prim : 9085
 Poids avec HK_Kruskal : 29027
-
-brg180
-Poids optimal : 1950
-Poids de la meilleure tournée (HK_prim) : 
-Rapport (meilleure tournée)/(tournée optimale) : 
-Poids avec RSL_Kruskal : 
-Poids avec RSL_Prim : 
-Poids avec HK_Kruskal : 
-
-pa561
-Poids optimal : 2763
-Poids de la meilleure tournée (HK_prim) : 
-Rapport (meilleure tournée)/(tournée optimale) : 
-Poids avec RSL_Kruskal : 
-Poids avec RSL_Prim : 
-Poids avec HK_Kruskal :
