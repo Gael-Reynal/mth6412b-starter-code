@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.6
+# v0.12.11
 
 using Markdown
 using InteractiveUtils
@@ -427,8 +427,8 @@ md" Cette fonction prend en argument une chaîne de caractère renseignant le no
 # ╟─d81f70d0-1c2c-11eb-033b-17b0b7f61f3d
 # ╟─f336b680-1c2c-11eb-2b34-a5c6949024ac
 # ╟─ac2c7480-1c2e-11eb-0d28-379d5b29cbee
-# ╟─c9856cd0-1c2e-11eb-3531-733daaa4dd4f
-# ╟─6e8388f0-1d08-11eb-1b19-a1b49c840550
+# ╠═c9856cd0-1c2e-11eb-3531-733daaa4dd4f
+# ╠═6e8388f0-1d08-11eb-1b19-a1b49c840550
 # ╟─d30e3890-1c2e-11eb-0c79-850eb41f0fa4
 # ╟─a68d15e0-1d08-11eb-21c2-d3e036b6328d
 # ╟─2063bca0-1c2f-11eb-1db6-8dc51026b586

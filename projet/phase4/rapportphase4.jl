@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.6
+# v0.12.11
 
 using Markdown
 using InteractiveUtils
@@ -104,11 +104,125 @@ with_terminal() do
 	end
 end
 
+# ╔═╡ 3f257aa0-2d70-11eb-0b94-8d4dee0c6d9c
+md"## Tests
+Afin de vérifier la validité de l'implémentation, les tests suivants ont été réalisés :
+"
+
+# ╔═╡ 53e20300-2d70-11eb-04c8-f3ba32f8d596
+with_terminal() do
+	open("hk.jl","r") do file
+	lines=readlines(file)
+		for i in 1:93
+			println(stdout,lines[i])
+		end
+	end
+end
+
+# ╔═╡ 5df163e0-2d70-11eb-19ab-53c42de26275
+with_terminal() do
+	function poids_tournee(graph::Graph{T}) where T
+		poids_total = 0
+		for edge in graph.edges
+			poids_total = poids_total + edge.weight
+		end
+		poids_total
+	end
+
+	function test()
+
+		A=Node("a","A",nothing,Inf,0,0)
+		B=Node("b","B",nothing,Inf,0,0)
+		C=Node("c","C",nothing,Inf,0,0)
+		D=Node("d","D",nothing,Inf,0,0)
+
+		AB=Edge([A,B],2)
+		AC=Edge([A,C],8)
+		AD=Edge([A,D],4)
+		BD=Edge([B,D],4)
+		BC=Edge([B,C],3)
+		DC=Edge([D,C],4)
+
+		g=Graph("",[A,B,C,D],[AB,AC,BC])
+		g1=Graph("g",[A,B,C,D],[AB,AC,BC,BC,BD,DC])
+
+		# Test de la fonction find_deg
+		println("Test de find_deg")
+		println(@test find_deg(g,A)==2)
+		println(@test find_deg(g,D)==0)
+
+		# Test 1  : Sur un exemple simple ---------------------------------------------------
+
+		A=Node("a","A",nothing,Inf,0,0)
+		B=Node("b","B",nothing,Inf,0,0)
+		C=Node("c","C",nothing,Inf,0,0)
+		D=Node("d","D",nothing,Inf,0,0)
+		E=Node("e","E",nothing,Inf,0,0)
+		F=Node("f","F",nothing,Inf,0,0)
+		G=Node("g","G",nothing,Inf,0,0)
+		H=Node("h","H",nothing,Inf,0,0)
+
+		AB=Edge([A,B],2)
+		AC=Edge([A,C],8)
+		AF=Edge([A,F],3)
+		AD=Edge([A,D],4)
+		CD=Edge([C,D],2)
+		BC=Edge([B,C],3)
+		BD=Edge([B,D],5)
+		BE=Edge([B,E],4)
+		CF=Edge([C,F],7)
+		DE=Edge([D,E],4)
+		EF=Edge([E,F],2)
+
+		graph_1=Graph("G",[A,B,C,D,E,F],[AB,AC,AF,AD,CD,CF,BC,BD,BE,EF,DE])
+
+		tournee1_hk = hk_prim(graph_1)
+		tournee1_rsl_prim = rsl_prim(graph_1)
+		tournee1_rsl_kruskal = rsl_kruskal(graph_1)
+
+		println(@test total_cost(tournee1_hk)<20)
+		println(@test total_cost(tournee1_rsl_prim)<20)
+		println(@test total_cost(tournee1_rsl_kruskal)<20)
+
+		# Test 2  : Sur des instances stsp ------------------------------------------------
+		repertoire = "../../instances/stsp"
+
+			# Sur bays29 -> Poids min = 2020
+
+		fic1 = string(repertoire,"/bays29.tsp")
+		graph_2 = create_graph("graph2", fic1)
+
+		tournee2_hk = hk_prim(graph_2)
+		tournee2_rsl_prim = rsl_prim(graph_2)
+		tournee2_rsl_kruskal = rsl_kruskal(graph_2)
+
+		println(@test total_cost(tournee2_hk)<4040)
+		println(@test total_cost(tournee2_rsl_prim)<4040)
+		println(@test total_cost(tournee2_rsl_kruskal)<4040)
+
+
+			 # Sur bays29 -> Poids min = 2020
+
+		fic1 = string(repertoire,"/bays29.tsp")
+		graph_2 = create_graph("graph2", fic1)
+
+		tournee2_hk = hk_prim(graph_2)
+		tournee2_rsl_prim = rsl_prim(graph_2)
+		tournee2_rsl_kruskal = rsl_kruskal(graph_2)
+
+		println(@test total_cost(tournee2_hk)<4040)
+		println(@test total_cost(tournee2_rsl_prim)<4040)
+		println(@test total_cost(tournee2_rsl_kruskal)<4040)
+	end
+	
+	test()
+end
+
 # ╔═╡ 111885c0-2cb3-11eb-020b-3b7e122adfd4
 md"## Comparaison des algorithmes
 Pour les quelques instances de tsp symétriques pour lesquelles des coordonnées de point ont été données, on a représenté graphiquement les tournées obtenues par les différents algorithmes.
 
-On a dressé les résultats des algorithmes sur les différentes instances dans le fichier texte 'résultats.txt'.
+On a dressé les résultats des algorithmes sur les différentes instances dans le fichier texte `résultats.txt`.
 Les meilleurs résultats sont obtenus par combinaison de l'algorithme HK avec celui de Prim (pour la recherche des Arbres de Recouvrement Minimaux). A quelques exceptions près, l'algorithme parvient à trouver une tournée dont le coût est entre 10 et 15% supérieur à celui de l'optimum, et ce en des temps très raisonnables pour d'assez grandes instances (de l'ordre de la minute pour les instances jusqu'à une taille de 50 villes, de l'ordre de l'heure pour des instances jusqu'à 200 villes). 
 
 A toutes fins utiles, une fonction `results` a été implémentée dans le fichier `main.jl`. Elle prend en paramètre un nom de fichier (sans extension) et renvoie les résultats pour les différents algorithmes ainsi que les graphiques des tournées obtenues si les coordonnées des noeuds sont renseignées.
@@ -124,4 +238,7 @@ A toutes fins utiles, une fonction `results` a été implémentée dans le fichi
 # ╟─3d4ca290-2cd9-11eb-0662-7b48feba5bc8
 # ╟─306acb90-2c3b-11eb-1d48-972b1405cd6c
 # ╟─c16e78a0-2cd9-11eb-2766-6dd26415fa91
+# ╟─3f257aa0-2d70-11eb-0b94-8d4dee0c6d9c
+# ╟─53e20300-2d70-11eb-04c8-f3ba32f8d596
+# ╟─5df163e0-2d70-11eb-19ab-53c42de26275
 # ╟─111885c0-2cb3-11eb-020b-3b7e122adfd4
