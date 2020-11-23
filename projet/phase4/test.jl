@@ -7,6 +7,27 @@ function poids_tournee(graph::Graph{T}) where T
 end
 
 function test()
+
+    A=Node("a","A",nothing,Inf,0,0)
+    B=Node("b","B",nothing,Inf,0,0)
+    C=Node("c","C",nothing,Inf,0,0)
+    D=Node("d","D",nothing,Inf,0,0)
+
+    AB=Edge([A,B],2)
+    AC=Edge([A,C],8)
+    AD=Edge([A,D],4)
+    BD=Edge([B,D],4)
+    BC=Edge([B,C],3)
+    DC=Edge([D,C],4)
+
+    g=Graph("",[A,B,C,D],[AB,AC,BC])
+    g1=Graph("g",[A,B,C,D],[AB,AC,BC,BC,BD,DC])
+
+    # Test de la fonction find_deg
+    println("Test de find_deg")
+    println(@test find_deg(g,A)==2)
+    println(@test find_deg(g,D)==0)
+    
     # Test 1  : Sur un exemple simple ---------------------------------------------------
 
     A=Node("a","A",nothing,Inf,0,0)
@@ -15,6 +36,8 @@ function test()
     D=Node("d","D",nothing,Inf,0,0)
     E=Node("e","E",nothing,Inf,0,0)
     F=Node("f","F",nothing,Inf,0,0)
+    G=Node("g","G",nothing,Inf,0,0)
+    H=Node("h","H",nothing,Inf,0,0)
 
     AB=Edge([A,B],2)
     AC=Edge([A,C],8)
@@ -34,9 +57,9 @@ function test()
     tournee1_rsl_prim = rsl_prim(graph_1)
     tournee1_rsl_kruskal = rsl_kruskal(graph_1)
 
-    println(@test poids_tournee(tournee1_hk)<20)
-    println(@test poids_tournee(tournee1_rsl_prim)<20)
-    println(@test poids_tournee(tournee1_rsl_kruskal)<20)
+    println(@test total_cost(tournee1_hk)<20)
+    println(@test total_cost(tournee1_rsl_prim)<20)
+    println(@test total_cost(tournee1_rsl_kruskal)<20)
 
     # Test 2  : Sur des instances stsp ------------------------------------------------
     repertoire = "../../instances/stsp"
@@ -50,9 +73,9 @@ function test()
     tournee2_rsl_prim = rsl_prim(graph_2)
     tournee2_rsl_kruskal = rsl_kruskal(graph_2)
 
-    println(@test poids_tournee(tournee2_hk)<4040)
-    println(@test poids_tournee(tournee2_rsl_prim)<4040)
-    println(@test poids_tournee(tournee2_rsl_kruskal)<4040)
+    println(@test total_cost(tournee2_hk)<4040)
+    println(@test total_cost(tournee2_rsl_prim)<4040)
+    println(@test total_cost(tournee2_rsl_kruskal)<4040)
 
 
          # Sur bays29 -> Poids min = 2020
@@ -64,20 +87,7 @@ function test()
     tournee2_rsl_prim = rsl_prim(graph_2)
     tournee2_rsl_kruskal = rsl_kruskal(graph_2)
 
-    println(@test poids_tournee(tournee2_hk)<4040)
-    println(@test poids_tournee(tournee2_rsl_prim)<4040)
-    println(@test poids_tournee(tournee2_rsl_kruskal)<4040)
-
-        # Sur dantzig42 -> Poids min = 699
-
-    fic2 = string(repertoire,"/dantzig42.tsp")
-    graph_3 = create_graph("graph3", fic2)
-
-    tournee3_hk = hk_prim(graph_3)
-    tournee3_rsl_prim = rsl_prim(graph_3)
-    tournee3_rsl_kruskal = rsl_kruskal(graph_3)
-
-    println(@test poids_tournee(tournee3_hk)<1398)
-    println(@test poids_tournee(tournee3_rsl_prim)<1398)
-    println(@test poids_tournee(tournee3_rsl_kruskal)<1398)
+    println(@test total_cost(tournee2_hk)<4040)
+    println(@test total_cost(tournee2_rsl_prim)<4040)
+    println(@test total_cost(tournee2_rsl_kruskal)<4040)
 end
