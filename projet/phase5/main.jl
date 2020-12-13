@@ -17,7 +17,7 @@ include("tools.jl")
 
 titles=["abstract-light-painting","alaska-railroad","blue-hour-paris","lower-kananaskis-lake","marlet2-radio-board","nikos-cat","pizza-food-wallpaper","the-enchanted-garden","tokyo-skytree-aerial"]
 for f in titles
-    G=create_graph(f,"../shredder-julia/tsp/instances/"*f*".tsp")
+    G=create_graph(f,"./instances/"*f*".tsp")
 
     G1=Graph{Array{Float64,1}}(G.name*"1")
     for n in 2:length(G.nodes)
@@ -67,5 +67,5 @@ for f in titles
     end
 
     write_tour(f*".tour",t,total_cost(G2))
-    reconstruct_picture(f*".tour", "../shredder-julia/images/shuffled/"*f*".png", f*".png")
+    reconstruct_picture(f*".tour", "./shuffled/"*f*".png", f*".png")
 end

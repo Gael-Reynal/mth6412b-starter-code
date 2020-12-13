@@ -2,10 +2,12 @@ using Random, FileIO, Images, ImageView, ImageMagick
 
 """Compute the similarity score between two pixels."""
 function compare_pixels(p1, p2)
-	r1, g1, b1 = red(p1), green(p1), blue(p1)
-	r2, g2, b2 = red(p2), green(p2), blue(p2)
-	return abs(r1-r2) + abs(g1-g2) + abs(b1-b2)
+    r1, g1, b1 = Float64(red(p1)), Float64(green(p1)), Float64(blue(p1))
+    r2, g2, b2 = Float64(red(p2)), Float64(green(p2)), Float64(blue(p2))
+    println("r1: ", r1, " g1: ", g1, " b1: ", b1)
+    return abs(r1-r2) + abs(g1-g2) + abs(b1-b2)
 end
+
 
 """Compute the similarity score between two columns of pixels in an image."""
 function compare_columns(col1, col2)
