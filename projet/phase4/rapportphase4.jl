@@ -229,11 +229,11 @@ A toutes fins utiles, une fonction `results` a été implémentée dans le fichi
 "
 
 # ╔═╡ Cell order:
-# ╟─dd791470-2cd8-11eb-36b3-df89c926caf2
-# ╟─e9545bb0-2cd8-11eb-1296-274a4d1b3884
-# ╟─bdd20a80-2c35-11eb-2975-c159b73b2e02
-# ╟─a3764ca0-2c35-11eb-3a93-cbf8de88d3fd
-# ╟─d28769e0-2cd8-11eb-34e4-9fca3673a515
+# ╠═dd791470-2cd8-11eb-36b3-df89c926caf2
+# ╠═e9545bb0-2cd8-11eb-1296-274a4d1b3884
+# ╠═bdd20a80-2c35-11eb-2975-c159b73b2e02
+# ╠═a3764ca0-2c35-11eb-3a93-cbf8de88d3fd
+# ╠═d28769e0-2cd8-11eb-34e4-9fca3673a515
 # ╟─159bf2d0-2c36-11eb-3bc9-7d95315dd23f
 # ╟─3d4ca290-2cd9-11eb-0662-7b48feba5bc8
 # ╟─306acb90-2c3b-11eb-1d48-972b1405cd6c

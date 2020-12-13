@@ -17,8 +17,9 @@ include("tools.jl")
 
 titles=["abstract-light-painting","alaska-railroad","blue-hour-paris","lower-kananaskis-lake","marlet2-radio-board","nikos-cat","pizza-food-wallpaper","the-enchanted-garden","tokyo-skytree-aerial"]
 for f in titles
-    G=create_graph(f,"./instances/"*f*".tsp")
 
+    #Création du graphe de travail
+    G=create_graph(f,"./instances/"*f*".tsp")
     G1=Graph{Array{Float64,1}}(G.name*"1")
     for n in 2:length(G.nodes)
         add_node!(G1,G.nodes[n])
@@ -29,15 +30,18 @@ for f in titles
         end
     end
 
+    #Calcul de la tournée
     G2=rsl_prim(G1)
+
+    #On cherche les noeuds qui serviront de point de départ et d'arrivée
     e=maximum(G2.edges)
     idx = findall(x -> x == e, G2.edges)[1]
     bef=G2.edges[1:idx-1]
     aft=G2.edges[idx+1:end]
 
+    #Construction de la tournée
     t=Int[]
     push!(t,1)
-
     if e.limits[1] in bef[end].limits
         x=parse(Int,e.limits[1].name)
         push!(t,x-1)
@@ -66,6 +70,9 @@ for f in titles
         end
     end
 
+    #Ecriture du fichier .tour lisible par `tools.jl`
     write_tour(f*".tour",t,total_cost(G2))
+
+    #Reconstruction de l'image
     reconstruct_picture(f*".tour", "./shuffled/"*f*".png", f*".png")
 end
