@@ -142,5 +142,9 @@ function results(f::String)
     println("hk prim: ",hkp)
 end
 
-test() 
+#test() 
 #total() # ATTENTION : Cette fonction calcule le résultats sur TOUTES les instances de tsp disponibles. L'exécution en est TRES longue
+G=create_graph("","../../instances/stsp/bayg29.tsp")
+show(G)
+G1=rsl_kruskal(G)
+show(G1)
